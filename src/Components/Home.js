@@ -1,0 +1,97 @@
+import React, { useEffect, useState } from "react";
+import api from "../apis/api";
+import { Link, useNavigate } from "react-router-dom";
+
+const Home = () => {
+  const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await api.get("/api/product/list");
+        setProducts(res.data);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+        alert("Failed to load products");
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  return (
+    <div className="container mt-4">
+      <h3 className="mb-4">Available Products</h3>
+
+      {products.length === 0 ? (
+        <p>No products available.</p>
+      ) : (
+        <div className="row">
+          {products.map((product) => (
+            <div className="col-md-4 col-lg-3 mb-4" key={product._id}>
+              <div className="card h-100 shadow-sm">
+                {/* Hero Image */}
+                <img
+                  src={
+                    product.heroImage ||
+                    "https://via.placeholder.com/300x200?text=No+Image"
+                  }
+                  className="card-img-top"
+                  alt={product.name}
+                  style={{ height: "180px", objectFit: "cover" }}
+                />
+
+                <div className="card-body d-flex flex-column justify-content-between">
+                  <div>
+                    <h5 className="card-title">{product.name}</h5>
+                    <p className="card-text text-muted">{product.shortDesc}</p>
+                    <ul className="list-unstyled small">
+                      <li>
+                        <strong>Category:</strong> {product.category}
+                      </li>
+                      <li>
+                        <strong>Brand:</strong> {product.brand}
+                      </li>
+                      <li>
+                        <strong>SKU:</strong> {product.sku}
+                      </li>
+                      <li>
+                        <strong>Color:</strong> {product.colour}
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="mt-2">
+                    <span
+                      className={`badge bg-${
+                        product.status ? "success" : "secondary"
+                      }`}
+                    >
+                      {product.status ? "Available" : "Unavailable"}
+                    </span>
+                  </div>
+                </div>
+                <div className="card-footer d-flex justify-content-between">
+                  <Link
+                    to={`/product/${product._id}`}
+                    className="btn btn-sm btn-outline-primary"
+                  >
+                    View
+                  </Link>
+                  <button
+                    className="btn btn-sm btn-outline-success"
+                    onClick={() => navigate(`/checkout/${product._id}`)}
+                  >
+                    Buy
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Home;
