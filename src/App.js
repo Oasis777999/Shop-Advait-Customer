@@ -6,6 +6,7 @@ import CheckoutPage from "./Components/CheckoutPage";
 import Profile from "./Components/Profile";
 import Login from "./Components/Login";
 import Navbar from "./Components/Navbar";
+import Footer from "./Components/Footer";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/checkout/:id" element={<CheckoutPage />}></Route>
           </Routes>
         </div>
+        <Footer/>
       </BrowserRouter>
     </div>
   );

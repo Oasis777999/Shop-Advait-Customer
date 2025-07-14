@@ -5,10 +5,9 @@ const Profile = () => {
   const [customer, setCustomer] = useState(null);
   const [orders, setOrders] = useState([]);
 
-  let user = JSON.parse(localStorage.getItem("user"));
-  console.log(user.id);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const id = user?.id;
 
-  const id = user.id;
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -22,65 +21,56 @@ const Profile = () => {
       }
     };
 
-    fetchData();
+    if (id) fetchData();
   }, [id]);
 
   if (!customer)
-    return <div className="container mt-5">Loading profile...</div>;
+    return <div className="container mt-5 text-center">Loading profile...</div>;
 
   return (
     <div className="container mt-4">
-      <h3>Customer Profile</h3>
-      <div className="card p-4 shadow-sm mb-4">
-        <p>
-          <strong>Name:</strong> {customer.name}
-        </p>
-        <p>
-          <strong>Email:</strong> {customer.email}
-        </p>
-        <p>
-          <strong>Mobile:</strong> {customer.mobile}
-        </p>
-        <p>
-          <strong>Address:</strong> {customer.address}
-        </p>
-        <p>
-          <strong>City:</strong> {customer.city}
-        </p>
-        <p>
-          <strong>State:</strong> {customer.state}
-        </p>
-        <p>
-          <strong>Pincode:</strong> {customer.pincode}
-        </p>
-        <p>
-          <strong>Landmark:</strong> {customer.landMark}
-        </p>
+      <h3 className="mb-4">Customer Profile</h3>
+      <div className="card shadow-sm p-4 mb-5">
+        <div className="row">
+          <div className="col-md-6">
+            <p><strong>Name:</strong> {customer.name}</p>
+            <p><strong>Email:</strong> {customer.email}</p>
+            <p><strong>Mobile:</strong> {customer.mobile}</p>
+            <p><strong>Address:</strong> {customer.address}</p>
+          </div>
+          <div className="col-md-6">
+            <p><strong>City:</strong> {customer.city}</p>
+            <p><strong>State:</strong> {customer.state}</p>
+            <p><strong>Pincode:</strong> {customer.pincode}</p>
+            <p><strong>Landmark:</strong> {customer.landMark}</p>
+          </div>
+        </div>
       </div>
 
-      <h4>My Orders</h4>
+      <h4 className="mb-3">My Orders</h4>
       {orders.length === 0 ? (
-        <div className="alert alert-warning text-center mt-4">
-          No orders placed yet.
-        </div>
+        <div className="alert alert-warning text-center">No orders placed yet.</div>
       ) : (
-        <div className="table-responsive mt-4">
-          <table className="table table-hover align-middle shadow-sm rounded">
-            <thead className="table-dark text-light">
+        <div className="table-responsive">
+          <table className="table table-bordered table-hover shadow-sm">
+            <thead className="table-dark">
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">Product</th>
-                <th scope="col">Payment</th>
-                <th scope="col">Status</th>
-                <th scope="col">Date</th>
+                <th>#</th>
+                <th>Product</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th>Date</th>
               </tr>
             </thead>
             <tbody>
               {orders.map((order, idx) => (
                 <tr key={order._id}>
                   <td>{idx + 1}</td>
-                  <td>
-                    <span className="text-primary">{order.productId}</span>
+                  <td className="text-primary">
+                    {/* If productId is populated with full product object */}
+                    {typeof order.productId === "object"
+                      ? order.productId.name
+                      : order.productId}
                   </td>
                   <td>
                     <span className="badge bg-info text-dark">
