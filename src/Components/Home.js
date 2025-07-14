@@ -66,7 +66,7 @@ const Home = () => {
                       <s>₹{product.costPrice}</s>
                     </span>
                     <span className="h5 text-dark">₹{product.sellPrice}</span>
-                    {product.costPrice > product.sellPrice && (
+                    {product.costPrice && product.sellPrice && (
                       <span className="badge bg-danger ms-2">
                         {Math.round(
                           ((product.costPrice - product.sellPrice) /

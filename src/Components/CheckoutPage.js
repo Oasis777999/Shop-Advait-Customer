@@ -99,7 +99,7 @@ const CheckoutPage = () => {
     }
   };
 
-  if (!product || !form.name) return <div className="container mt-5">Loading...</div>;
+  if (!product) return <div className="container mt-5">Loading...</div>;
 
   return (
     <div className="container mt-4">
