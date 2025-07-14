@@ -29,7 +29,7 @@ const Home = () => {
       ) : (
         <div className="row">
           {products.map((product) => (
-            <div className="col-md-4 col-lg-3 mb-4" key={product._id}>
+            <div className="col-md-6 col-lg-4 mb-4" key={product._id}>
               <div className="card h-100 shadow-sm">
                 {/* Hero Image */}
                 <img
@@ -61,6 +61,22 @@ const Home = () => {
                       </li>
                     </ul>
                   </div>
+                  <div>
+                    <span className="me-2 text-muted">
+                      <s>₹{product.costPrice}</s>
+                    </span>
+                    <span className="h5 text-dark">₹{product.sellPrice}</span>
+                    {product.costPrice > product.sellPrice && (
+                      <span className="badge bg-danger ms-2">
+                        {Math.round(
+                          ((product.costPrice - product.sellPrice) /
+                            product.costPrice) *
+                            100
+                        )}
+                        % OFF
+                      </span>
+                    )}
+                  </div>
                   <div className="mt-2">
                     <span
                       className={`badge bg-${
@@ -74,12 +90,12 @@ const Home = () => {
                 <div className="card-footer d-flex justify-content-between">
                   <Link
                     to={`/product/${product._id}`}
-                    className="btn btn-sm btn-outline-primary"
+                    className="btn btn btn-outline-primary"
                   >
                     View
                   </Link>
                   <button
-                    className="btn btn-sm btn-outline-success"
+                    className="btn btn btn-outline-success"
                     onClick={() => navigate(`/checkout/${product._id}`)}
                   >
                     Buy
