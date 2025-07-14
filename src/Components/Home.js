@@ -39,22 +39,15 @@ const Home = () => {
                   }
                   className="card-img-top"
                   alt={product.name}
-                  style={{ height: "180px", objectFit: "cover" }}
+                  style={{ height: "300px", objectFit: "cover" }}
                 />
 
                 <div className="card-body d-flex flex-column justify-content-between">
                   <div>
-                    <h5 className="card-title">{product.name}</h5>
-                    <p className="card-text text-muted">{product.shortDesc}</p>
+                    <h4 className="card-title">{product.name}</h4>
                     <ul className="list-unstyled small">
                       <li>
                         <strong>Category:</strong> {product.category}
-                      </li>
-                      <li>
-                        <strong>Brand:</strong> {product.brand}
-                      </li>
-                      <li>
-                        <strong>SKU:</strong> {product.sku}
                       </li>
                       <li>
                         <strong>Color:</strong> {product.colour}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../apis/api";
+import ProductImageSlider from "./ProductImageSlider";
 
 const DetailedProduct = () => {
   const { id } = useParams();
@@ -24,12 +25,28 @@ const DetailedProduct = () => {
 
   if (!product) return <div className="container mt-5">Loading...</div>;
 
+  // Display all the images stored for database
+  const sampleImages = [
+    "https://as2.ftcdn.net/jpg/03/80/45/67/1000_F_380456718_GvztQTLq7G7QWlTovmDmmZLOd2KTl4Ss.jpg",
+    "https://t3.ftcdn.net/jpg/08/30/29/20/240_F_830292015_ygQp4THNtsi9RmhIlZwB0sn3IIdlYRis.jpg",
+    "https://as2.ftcdn.net/jpg/03/80/45/67/1000_F_380456718_GvztQTLq7G7QWlTovmDmmZLOd2KTl4Ss.jpg",
+    "https://t3.ftcdn.net/jpg/08/30/29/20/240_F_830292015_ygQp4THNtsi9RmhIlZwB0sn3IIdlYRis.jpg",
+    "https://as2.ftcdn.net/jpg/03/80/45/67/1000_F_380456718_GvztQTLq7G7QWlTovmDmmZLOd2KTl4Ss.jpg",
+    "https://t3.ftcdn.net/jpg/08/30/29/20/240_F_830292015_ygQp4THNtsi9RmhIlZwB0sn3IIdlYRis.jpg",
+    "https://as2.ftcdn.net/jpg/03/80/45/67/1000_F_380456718_GvztQTLq7G7QWlTovmDmmZLOd2KTl4Ss.jpg",
+    "https://t3.ftcdn.net/jpg/08/30/29/20/240_F_830292015_ygQp4THNtsi9RmhIlZwB0sn3IIdlYRis.jpg",
+    "https://as2.ftcdn.net/jpg/03/80/45/67/1000_F_380456718_GvztQTLq7G7QWlTovmDmmZLOd2KTl4Ss.jpg",
+    "https://t3.ftcdn.net/jpg/08/30/29/20/240_F_830292015_ygQp4THNtsi9RmhIlZwB0sn3IIdlYRis.jpg",
+    "https://as2.ftcdn.net/jpg/03/80/45/67/1000_F_380456718_GvztQTLq7G7QWlTovmDmmZLOd2KTl4Ss.jpg",
+    "https://t3.ftcdn.net/jpg/08/30/29/20/240_F_830292015_ygQp4THNtsi9RmhIlZwB0sn3IIdlYRis.jpg",
+  ];
+
   return (
     <div className="container mt-4">
       <div className="row g-4">
         {/* Image Section */}
         <div className="col-md-6">
-          <div className="border rounded p-3 bg-light shadow-sm">
+          {/* <div className="border rounded p-3 bg-light shadow-sm">
             <img
               src={
                 product.heroImage ||
@@ -39,7 +56,8 @@ const DetailedProduct = () => {
               alt={product.name}
               style={{ objectFit: "cover", maxHeight: "400px", width: "100%" }}
             />
-          </div>
+          </div> */}
+          <ProductImageSlider images={sampleImages} />
         </div>
 
         {/* Product Info Section */}
