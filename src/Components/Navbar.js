@@ -40,8 +40,8 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/products">
-                <i className="bi bi-grid me-1"></i> Products
+              <Link className="nav-link" to="/aboutus">
+                <i className="bi bi-grid me-1"></i> About Us
               </Link>
             </li>
 
