@@ -24,6 +24,7 @@ const Home = () => {
     <div className="container mt-4">
       <h3 className="mb-4">Available Products</h3>
 
+      {/* Card Items */}
       {products.length === 0 ? (
         <p>No products available.</p>
       ) : (

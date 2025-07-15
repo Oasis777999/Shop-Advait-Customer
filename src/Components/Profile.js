@@ -30,26 +30,46 @@ const Profile = () => {
   return (
     <div className="container mt-4">
       <h3 className="mb-4">Customer Profile</h3>
+      {/* Customer Profile */}
       <div className="card shadow-sm p-4 mb-5">
         <div className="row">
           <div className="col-md-6">
-            <p><strong>Name:</strong> {customer.name}</p>
-            <p><strong>Email:</strong> {customer.email}</p>
-            <p><strong>Mobile:</strong> {customer.mobile}</p>
-            <p><strong>Address:</strong> {customer.address}</p>
+            <p>
+              <strong>Name:</strong> {customer.name}
+            </p>
+            <p>
+              <strong>Email:</strong> {customer.email}
+            </p>
+            <p>
+              <strong>Mobile:</strong> {customer.mobile}
+            </p>
+            <p>
+              <strong>Address:</strong> {customer.address}
+            </p>
           </div>
           <div className="col-md-6">
-            <p><strong>City:</strong> {customer.city}</p>
-            <p><strong>State:</strong> {customer.state}</p>
-            <p><strong>Pincode:</strong> {customer.pincode}</p>
-            <p><strong>Landmark:</strong> {customer.landMark}</p>
+            <p>
+              <strong>City:</strong> {customer.city}
+            </p>
+            <p>
+              <strong>State:</strong> {customer.state}
+            </p>
+            <p>
+              <strong>Pincode:</strong> {customer.pincode}
+            </p>
+            <p>
+              <strong>Landmark:</strong> {customer.landMark}
+            </p>
           </div>
         </div>
       </div>
 
+      {/* Order List  */}
       <h4 className="mb-3">My Orders</h4>
       {orders.length === 0 ? (
-        <div className="alert alert-warning text-center">No orders placed yet.</div>
+        <div className="alert alert-warning text-center">
+          No orders placed yet.
+        </div>
       ) : (
         <div className="table-responsive">
           <table className="table table-bordered table-hover shadow-sm">

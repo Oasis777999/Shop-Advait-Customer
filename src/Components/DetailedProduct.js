@@ -43,6 +43,7 @@ const DetailedProduct = () => {
 
   return (
     <>
+      {/* Image Section with Side content */}
       <div className="container mt-4">
         <div className="row g-4">
           {/* Image Section */}
@@ -160,6 +161,7 @@ const DetailedProduct = () => {
         </div>
       </div>
 
+      {/* Suitable for vehicles */}
       <section class="py-5 bg-light text-center">
         <div class="container">
           <h4 class="mb-4 fw-semibold">Suitable for</h4>
@@ -182,6 +184,7 @@ const DetailedProduct = () => {
         </div>
       </section>
 
+      {/* Benifits */}
       <section class="py-5 bg-light">
         <div class="container">
           <h3 class="text-center mb-5 fw-bold">Benefits</h3>
@@ -268,6 +271,7 @@ const DetailedProduct = () => {
         </div>
       </section>
 
+      {/* FAQ */}
       <section class="py-5 bg-white">
         <div class="container">
           <h2 class="text-center fw-bold mb-5">Frequently Asked Questions</h2>

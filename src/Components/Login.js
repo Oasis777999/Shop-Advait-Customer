@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import api from '../apis/api';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import api from "../apis/api";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [form, setForm] = useState({ mobile: '', password: '' });
+  const [form, setForm] = useState({ mobile: "", password: "" });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -15,20 +15,21 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const res = await api.post('/api/customer/login', form); // adjust this endpoint as needed
+      const res = await api.post("/api/customer/login", form); // adjust this endpoint as needed
       console.log(res.data.user);
-      
-      alert('Login successful!');
-     localStorage.setItem('user', JSON.stringify(res.data.user));
- // save token if provided
-      navigate('/'); // redirect to dashboard
+
+      alert("Login successful!");
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      // save token if provided
+      navigate("/"); // redirect to dashboard
     } catch (err) {
-      alert(err.response?.data?.message || 'Login failed');
+      alert(err.response?.data?.message || "Login failed");
     }
   };
 
   return (
-    <div className="container mt-5" style={{ maxWidth: '400px' }}>
+    // Login Form
+    <div className="container mt-5" style={{ maxWidth: "400px" }}>
       <div className="card shadow p-4">
         <h3 className="text-center mb-4">Login</h3>
         <form onSubmit={handleLogin}>
