@@ -48,7 +48,7 @@ const Footer = () => {
 
             {/* <!-- Contact Us --> */}
             <div class="col-md-4 mb-4">
-                <h5 class="fw-semibold">Contact Us</h5>
+              <h5 class="fw-semibold">Contact Us</h5>
               <p class="mb-1">Mobile Number: +91-82829 82829</p>
               <p class="mb-0">WhatsApp: +91-82829 82829</p>
             </div>

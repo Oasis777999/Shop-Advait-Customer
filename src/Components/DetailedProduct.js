@@ -47,9 +47,10 @@ const DetailedProduct = () => {
           </div>
 
           {/* Product Info Section */}
-          <div className="col-md-6">
+          <div className="col-md-6 py-5">
             <h2 className="fw-bold">{product.name}</h2>
             <p className="text-muted">{product.shortDesc}</p>
+            <p className="fw-bold">Subscription : {product.warranty} Years</p>
             <hr />
 
             <div className="mb-3">
@@ -64,7 +65,7 @@ const DetailedProduct = () => {
                 <s>₹{product.costPrice}</s>
               </span>
               <span className="h5 text-dark">₹{product.sellPrice}</span>
-              {product.costPrice > product.sellPrice && (
+              {product.costPrice && product.sellPrice && (
                 <span className="badge bg-danger ms-2">
                   {Math.round(
                     ((product.costPrice - product.sellPrice) /
@@ -80,51 +81,6 @@ const DetailedProduct = () => {
             {product.price && (
               <h4 className="text-success">₹ {product.price}</h4>
             )}
-
-            <table className="table table-sm table-striped mt-4">
-              <tbody>
-                <tr>
-                  <th>SKU</th>
-                  <td>{product.sku}</td>
-                </tr>
-                <tr>
-                  <th>Status</th>
-                  <td>{product.status ? "Available" : "Unavailable"}</td>
-                </tr>
-                <tr>
-                  <th>Payment</th>
-                  <td>{product.payment}</td>
-                </tr>
-                <tr>
-                  <th>Sequence</th>
-                  <td>{product.sequence}</td>
-                </tr>
-                <tr>
-                  <th>Colour</th>
-                  <td>{product.colour}</td>
-                </tr>
-                <tr>
-                  <th>Warranty</th>
-                  <td>{product.warranty}</td>
-                </tr>
-                <tr>
-                  <th>Length</th>
-                  <td>{product.length} cm</td>
-                </tr>
-                <tr>
-                  <th>Breadth</th>
-                  <td>{product.breadth} cm</td>
-                </tr>
-                <tr>
-                  <th>Height</th>
-                  <td>{product.height} cm</td>
-                </tr>
-                <tr>
-                  <th>Weight</th>
-                  <td>{product.weight} kg</td>
-                </tr>
-              </tbody>
-            </table>
 
             {/* Action Buttons */}
             <div className="d-flex gap-3 mt-4">
@@ -144,6 +100,72 @@ const DetailedProduct = () => {
           </div>
         </div>
       </div>
+
+      <section className="py-5 text-center">
+        <div className="container">
+          <h3>Detailed Product Information</h3>
+          <table className="table table-sm table-striped mt-4">
+            <tbody>
+              <tr>
+                <th>Product</th>
+                <td>{product.name}</td>
+              </tr>
+              <tr>
+                <th>Category</th>
+                <td>{product.category}</td>
+              </tr>
+              <tr>
+                <th>SKU</th>
+                <td>{product.sku}</td>
+              </tr>
+              <tr>
+                <th>Status</th>
+                <td>{product.status ? "Available" : "Unavailable"}</td>
+              </tr>
+              <tr>
+                <th>Payment</th>
+                <td>{product.payment}</td>
+              </tr>
+              <tr>
+                <th>Sequence</th>
+                <td>{product.sequence}</td>
+              </tr>
+              <tr>
+                <th>Colour</th>
+                <td>{product.colour}</td>
+              </tr>
+              <tr>
+                <th>Warranty</th>
+                <td>{product.warranty}</td>
+              </tr>
+              <tr>
+                <th>Length</th>
+                <td>{product.length} cm</td>
+              </tr>
+              <tr>
+                <th>Breadth</th>
+                <td>{product.breadth} cm</td>
+              </tr>
+              <tr>
+                <th>Height</th>
+                <td>{product.height} cm</td>
+              </tr>
+              <tr>
+                <th>Weight</th>
+                <td>{product.weight} kg</td>
+              </tr>
+
+              {/* ✅ New Row for Box Content */}
+              {product.boxContent && product.boxContent.length > 0 && (
+                <tr>
+                  <th>Box Content</th>
+                  <td>{product.boxContent.join(", ")}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       {/* Suitable for vehicles */}
       <section class="py-5 bg-light text-center">

@@ -57,9 +57,6 @@ const Profile = () => {
             <p>
               <strong>Pincode:</strong> {customer.pincode}
             </p>
-            <p>
-              <strong>Landmark:</strong> {customer.landMark}
-            </p>
           </div>
         </div>
       </div>
