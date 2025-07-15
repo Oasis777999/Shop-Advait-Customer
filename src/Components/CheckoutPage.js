@@ -18,15 +18,17 @@ const CheckoutPage = () => {
     pincode: "",
   });
   const [selectedPayment, setSelectedPayment] = useState("");
-  
+
   useEffect(() => {
     const fetchCustomer = async () => {
       const storedCustomer = JSON.parse(localStorage.getItem("user"));
       console.log(storedCustomer);
-      
+
       if (storedCustomer && storedCustomer.id) {
         try {
-          const res = await api.get(`/api/customer/profile/${storedCustomer.id}`);
+          const res = await api.get(
+            `/api/customer/profile/${storedCustomer.id}`
+          );
           const data = res.data;
           setCustomer(data);
           setForm({
@@ -52,7 +54,7 @@ const CheckoutPage = () => {
       try {
         const res = await api.get(`/api/product/${id}`);
         console.log(res.data);
-        
+
         setProduct(res.data);
       } catch (err) {
         console.error("Product fetch failed:", err);
@@ -76,18 +78,24 @@ const CheckoutPage = () => {
     if (!selectedPayment) {
       alert("Please select a payment method");
       return;
-    }    
+    }
 
     const orderData = {
       productId: product._id,
       customerId: customer._id,
       paymentMethod: selectedPayment,
       billingData: form,
-      product:product
+      product: product,
     };
 
     console.log(orderData);
-    
+
+    try {
+      await api.put(`/api/customer/update/${customer._id}`, form);
+      console.log("Address Saved");
+    } catch (error) {
+      console.error("Address add fail");
+    }
 
     try {
       await api.post("/api/order/add", orderData);
@@ -110,13 +118,22 @@ const CheckoutPage = () => {
           <div className="card p-3 shadow-sm">
             <h5>Product Summary</h5>
             <img
-              src={product.heroImage || "https://via.placeholder.com/400x300?text=No+Image"}
+              src={
+                product.heroImage[0] ||
+                "https://via.placeholder.com/400x300?text=No+Image"
+              }
               className="img-fluid rounded mb-2"
               alt={product.name}
             />
-            <p><strong>{product.name}</strong></p>
+            <p>
+              <strong>{product.name}</strong>
+            </p>
             <p className="text-muted">{product.shortDesc}</p>
-            {product.price && <p><strong>Price:</strong> ₹{product.price}</p>}
+            {product.price && (
+              <p>
+                <strong>Price:</strong> ₹{product.price}
+              </p>
+            )}
           </div>
         </div>
 
@@ -133,12 +150,14 @@ const CheckoutPage = () => {
               ["landMark", "Landmark"],
               ["city", "City"],
               ["state", "State"],
-              ["pincode", "Pincode"]
+              ["pincode", "Pincode"],
             ].map(([key, label]) => (
               <div className="mb-3" key={key}>
                 <label className="form-label">{label}</label>
                 <input
-                  type={key === "pincode" || key === "phone" ? "number" : "text"}
+                  type={
+                    key === "pincode" || key === "phone" ? "number" : "text"
+                  }
                   name={key}
                   className="form-control"
                   value={form[key]}
