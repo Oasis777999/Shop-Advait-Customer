@@ -35,7 +35,7 @@ const Home = () => {
                 {/* Hero Image */}
                 <img
                   src={
-                    product.heroImage ||
+                    product.heroImage[0] ||
                     "https://via.placeholder.com/300x200?text=No+Image"
                   }
                   className="card-img-top"

@@ -25,22 +25,6 @@ const DetailedProduct = () => {
 
   if (!product) return <div className="container mt-5">Loading...</div>;
 
-  // Display all the images stored for database
-  const sampleImages = [
-    "https://as2.ftcdn.net/jpg/03/80/45/67/1000_F_380456718_GvztQTLq7G7QWlTovmDmmZLOd2KTl4Ss.jpg",
-    "https://t3.ftcdn.net/jpg/08/30/29/20/240_F_830292015_ygQp4THNtsi9RmhIlZwB0sn3IIdlYRis.jpg",
-    "https://as2.ftcdn.net/jpg/03/80/45/67/1000_F_380456718_GvztQTLq7G7QWlTovmDmmZLOd2KTl4Ss.jpg",
-    "https://t3.ftcdn.net/jpg/08/30/29/20/240_F_830292015_ygQp4THNtsi9RmhIlZwB0sn3IIdlYRis.jpg",
-    "https://as2.ftcdn.net/jpg/03/80/45/67/1000_F_380456718_GvztQTLq7G7QWlTovmDmmZLOd2KTl4Ss.jpg",
-    "https://t3.ftcdn.net/jpg/08/30/29/20/240_F_830292015_ygQp4THNtsi9RmhIlZwB0sn3IIdlYRis.jpg",
-    "https://as2.ftcdn.net/jpg/03/80/45/67/1000_F_380456718_GvztQTLq7G7QWlTovmDmmZLOd2KTl4Ss.jpg",
-    "https://t3.ftcdn.net/jpg/08/30/29/20/240_F_830292015_ygQp4THNtsi9RmhIlZwB0sn3IIdlYRis.jpg",
-    "https://as2.ftcdn.net/jpg/03/80/45/67/1000_F_380456718_GvztQTLq7G7QWlTovmDmmZLOd2KTl4Ss.jpg",
-    "https://t3.ftcdn.net/jpg/08/30/29/20/240_F_830292015_ygQp4THNtsi9RmhIlZwB0sn3IIdlYRis.jpg",
-    "https://as2.ftcdn.net/jpg/03/80/45/67/1000_F_380456718_GvztQTLq7G7QWlTovmDmmZLOd2KTl4Ss.jpg",
-    "https://t3.ftcdn.net/jpg/08/30/29/20/240_F_830292015_ygQp4THNtsi9RmhIlZwB0sn3IIdlYRis.jpg",
-  ];
-
   return (
     <>
       {/* Image Section with Side content */}
@@ -59,7 +43,7 @@ const DetailedProduct = () => {
               style={{ objectFit: "cover", maxHeight: "400px", width: "100%" }}
             />
           </div> */}
-            <ProductImageSlider images={sampleImages} />
+            <ProductImageSlider images={product.heroImage} />
           </div>
 
           {/* Product Info Section */}
