@@ -19,7 +19,6 @@ const CheckoutPage = () => {
   const [selectedPayment, setSelectedPayment] = useState("");
 
   console.log(product);
-  
 
   const total = product.reduce(
     (sum, item) => sum + item.sellPrice * item.quantity,
@@ -115,8 +114,8 @@ const CheckoutPage = () => {
       paymentMethod: selectedPayment,
       billingData: form,
       product: product,
-      sellTotalPrice:total,
-      costTotalPrice:costTotal
+      sellTotalPrice: total,
+      costTotalPrice: costTotal,
     };
 
     console.log(orderData);
@@ -156,12 +155,12 @@ const CheckoutPage = () => {
                 className="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2"
               >
                 <div>
-                  <strong>{product.name}</strong>
+                  <strong className="text-primary">{product.name}</strong>
                   <div className="text-muted small">
                     Qty: {product.quantity} × ₹{product.sellPrice}
                   </div>
                 </div>
-                <div>₹{product.quantity * product.sellPrice}</div>
+                <div className="fw-bold">₹{product.quantity * product.sellPrice}</div>
               </div>
             ))}
 
@@ -169,17 +168,19 @@ const CheckoutPage = () => {
             <div className="border-top pt-3 mt-3">
               <div className="d-flex justify-content-between mb-2">
                 <span>Sub Total</span>
-                <span className="">₹{costTotal}</span>
+                <span className="text-danger">₹{costTotal}</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
                 <span>Delivery Charges</span>
-                <span className="text-decoration-line-through">₹50</span>
+                <span className="text-danger"> ₹ 50</span>
+              </div>
+              <div className="d-flex justify-content-between mb-2">
+                <span>Delivery Charges</span>
+                <span className="text-success">- ₹ 50</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
                 <span>Your total savings</span>
-                <span className="text-decoration-line-through">
-                  ₹ {discount}
-                </span>
+                <span className="text-success">- ₹ {discount}</span>
               </div>
               <div className="d-flex justify-content-between border-top pt-3 fw-bold fs-5">
                 <span>Total</span>

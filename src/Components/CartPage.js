@@ -29,7 +29,7 @@ const CartPage = () => {
         customerCart.map((item) => api.get(`/api/product/${item.productId}`))
       );
 
-      // console.log(productResponses);
+      console.log(productResponses);
 
       // 3. Merge product info with quantity
       const fullProducts = productResponses.map((res, index) => ({
@@ -76,7 +76,10 @@ const CartPage = () => {
             <table className="table table-striped align-middle">
               <thead className="table-light">
                 <tr>
+                  <th>Sr. No</th>
                   <th>Product</th>
+                  <th>Description</th>
+                  <th>Color</th>
                   <th>Qty</th>
                   <th>Price</th>
                   <th>Total</th>
@@ -85,7 +88,10 @@ const CartPage = () => {
               <tbody>
                 {products.map((item, index) => (
                   <tr key={index}>
-                    <td>{item.name}</td>
+                    <td>{index+1}</td>
+                    <td><img src={item.heroImage[0]} height={100} width={100}></img></td>
+                    <td className="fw-bold">{item.name}</td>
+                    <td>{item.colour}</td>
                     <td>
                       <div className="d-flex align-items-center">
                         <button
@@ -111,13 +117,13 @@ const CartPage = () => {
             </table>
           </div>
 
-          <div className="d-flex justify-content-end">
+          <div className="d-flex flex-column align-items-end mt-4">
             <h5>Total: ₹{total}</h5>
             <button
-              className="btn btn-primary btn-lg"
-              onClick={() => navigate(`/checkout`)}
+              className="btn btn-primary btn-lg mt-2"
+              onClick={() => navigate("/checkout")}
             >
-              Buy Now
+              Place Order
             </button>
           </div>
         </>
