@@ -98,9 +98,9 @@ const DetailedProduct = () => {
             <div className="d-flex gap-3 mt-4">
               <button
                 className="btn btn-primary btn-lg"
-                onClick={() => navigate(`/checkout/${product._id}`)}
+                onClick={() => navigate("/cart")}
               >
-                Buy Now
+                View Cart
               </button>
               <button
                 className="btn btn-outline-secondary btn-lg"

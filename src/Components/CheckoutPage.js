@@ -18,7 +18,20 @@ const CheckoutPage = () => {
   });
   const [selectedPayment, setSelectedPayment] = useState("");
 
-  console.log("Product List", product);
+  console.log(product);
+  
+
+  const total = product.reduce(
+    (sum, item) => sum + item.sellPrice * item.quantity,
+    0
+  );
+
+  const costTotal = product.reduce(
+    (sum, item) => sum + item.costPrice * item.quantity,
+    0
+  );
+
+  const discount = costTotal - total;
 
   useEffect(() => {
     fetchCustomer();
@@ -102,6 +115,8 @@ const CheckoutPage = () => {
       paymentMethod: selectedPayment,
       billingData: form,
       product: product,
+      sellTotalPrice:total,
+      costTotalPrice:costTotal
     };
 
     console.log(orderData);
@@ -122,18 +137,6 @@ const CheckoutPage = () => {
       alert("Order could not be placed. Please try again.");
     }
   };
-
-  const total = product.reduce(
-    (sum, item) => sum + item.sellPrice * item.quantity,
-    0
-  );
-
-  const costTotal = product.reduce(
-    (sum, item) => sum + item.costPrice * item.quantity,
-    0
-  );
-
-  const discount = costTotal - total;
 
   if (!product) return <div className="container mt-5">Loading...</div>;
 
@@ -174,7 +177,9 @@ const CheckoutPage = () => {
               </div>
               <div className="d-flex justify-content-between mb-2">
                 <span>Your total savings</span>
-                <span className="text-decoration-line-through">₹ {discount}</span>
+                <span className="text-decoration-line-through">
+                  ₹ {discount}
+                </span>
               </div>
               <div className="d-flex justify-content-between border-top pt-3 fw-bold fs-5">
                 <span>Total</span>

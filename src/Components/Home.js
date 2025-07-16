@@ -82,17 +82,14 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="card-footer d-flex justify-content-between">
-                  <Link
-                    to={`/product/${product._id}`}
-                    className="btn btn btn-outline-primary"
-                  >
-                    View
-                  </Link>
                   <button
                     className="btn btn btn-outline-success"
-                    onClick={() => navigate(`/checkout/${product._id}`)}
+                    onClick={() => navigate(`/product/${product._id}`)}
                   >
-                    Buy
+                    View
+                  </button>
+                  <button className="btn btn-outline-primary">
+                    Buy 
                   </button>
                 </div>
               </div>
