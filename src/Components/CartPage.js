@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import api from "../apis/api"; // axios instance
+import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
   const [customer, setCustomer] = useState({});
+
+  const navigate = useNavigate();
 
   // User stored in the localstorage
   const user = JSON.parse(localStorage.getItem("user"));
@@ -89,14 +92,14 @@ const CartPage = () => {
                           className="btn btn-sm btn-outline-danger"
                           onClick={() => updateQuantity(item._id, "decrease")}
                         >
-                           – 
+                          –
                         </button>
                         <span className="mx-2">{item.quantity}</span>
                         <button
                           className="btn btn-sm btn-outline-primary"
                           onClick={() => updateQuantity(item._id, "increase")}
                         >
-                           + 
+                          +
                         </button>
                       </div>
                     </td>
@@ -110,6 +113,12 @@ const CartPage = () => {
 
           <div className="d-flex justify-content-end">
             <h5>Total: ₹{total}</h5>
+            <button
+              className="btn btn-primary btn-lg"
+              onClick={() => navigate(`/checkout`)}
+            >
+              Buy Now
+            </button>
           </div>
         </>
       )}

@@ -3,9 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../apis/api";
 
 const CheckoutPage = () => {
-  const { id } = useParams();
   const navigate = useNavigate();
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState([]);
   const [customer, setCustomer] = useState(null);
   const [form, setForm] = useState({
     name: "",
@@ -19,53 +18,70 @@ const CheckoutPage = () => {
   });
   const [selectedPayment, setSelectedPayment] = useState("");
 
+  console.log("Product List", product);
+
   useEffect(() => {
-    const fetchCustomer = async () => {
-      const storedCustomer = JSON.parse(localStorage.getItem("user"));
-      console.log(storedCustomer);
-
-      if (storedCustomer && storedCustomer.id) {
-        try {
-          const res = await api.get(
-            `/api/customer/profile/${storedCustomer.id}`
-          );
-          const data = res.data;
-          setCustomer(data);
-          setForm({
-            name: data.name || "",
-            phone: data.mobile || "",
-            email: data.email || "",
-            address: data.address || "",
-            landMark: data.landMark || "",
-            city: data.city || "",
-            state: data.state || "",
-            pincode: data.pincode || "",
-          });
-        } catch (err) {
-          console.error("Failed to load customer profile", err);
-        }
-      } else {
-        alert("Please login to continue");
-        navigate("/login");
-      }
-    };
-
-    const fetchProduct = async () => {
-      try {
-        const res = await api.get(`/api/product/${id}`);
-        console.log(res.data);
-
-        setProduct(res.data);
-      } catch (err) {
-        console.error("Product fetch failed:", err);
-        alert("Product not found");
-        navigate("/productlist");
-      }
-    };
-
     fetchCustomer();
-    fetchProduct();
-  }, [id, navigate]);
+  }, [navigate]);
+
+  useEffect(() => {
+    if (customer) {
+      fetchProduct();
+    }
+  });
+
+  const fetchCustomer = async () => {
+    const storedCustomer = JSON.parse(localStorage.getItem("user"));
+
+    if (storedCustomer && storedCustomer.id) {
+      try {
+        const res = await api.get(`/api/customer/profile/${storedCustomer.id}`);
+        const data = res.data;
+        setCustomer(data);
+        setForm({
+          name: data.name || "",
+          phone: data.mobile || "",
+          email: data.email || "",
+          address: data.address || "",
+          landMark: data.landMark || "",
+          city: data.city || "",
+          state: data.state || "",
+          pincode: data.pincode || "",
+        });
+      } catch (err) {
+        console.error("Failed to load customer profile", err);
+      }
+    } else {
+      alert("Please login to continue");
+      navigate("/login");
+    }
+  };
+
+  const fetchProduct = async () => {
+    try {
+      if (!customer) return;
+
+      const productIdList = customer.cart; // [{ productId, quantity }]
+      console.log("Cart:", productIdList);
+
+      // Fetch product details for each item in the cart
+      const productResponses = await Promise.all(
+        productIdList.map((item) => api.get(`/api/product/${item.productId}`))
+      );
+
+      // Combine product details with quantity from cart
+      const fullProducts = productResponses.map((res, index) => ({
+        ...res.data,
+        quantity: productIdList[index].quantity,
+      }));
+
+      console.log("Products with quantity:", fullProducts);
+
+      setProduct(fullProducts);
+    } catch (err) {
+      console.error("Product fetch failed:", err.message);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -107,6 +123,18 @@ const CheckoutPage = () => {
     }
   };
 
+  const total = product.reduce(
+    (sum, item) => sum + item.sellPrice * item.quantity,
+    0
+  );
+
+  const costTotal = product.reduce(
+    (sum, item) => sum + item.costPrice * item.quantity,
+    0
+  );
+
+  const discount = costTotal - total;
+
   if (!product) return <div className="container mt-5">Loading...</div>;
 
   return (
@@ -115,46 +143,42 @@ const CheckoutPage = () => {
       <div className="row mt-4">
         {/* Product Summary */}
         <div className="col-md-5">
-          <div className="card p-3 shadow-sm">
-            <h5>Product Summary</h5>
-            <img
-              src={
-                product.heroImage[0] ||
-                "https://via.placeholder.com/400x300?text=No+Image"
-              }
-              className="img-fluid rounded mb-2"
-              alt={product.name}
-            />
-            <p>
-              <strong>{product.name}</strong>
-            </p>
-            <p className="text-muted">{product.shortDesc}</p>
-            {product.price && (
-              <p>
-                <strong>Price:</strong> ₹{product.price}
-              </p>
-            )}
-          </div>
-          <div className="card shadow-sm p-4 border-0">
-            <h5 className="mb-4">Order Summary</h5>
+          <h5 className="mb-4">Order Summary</h5>
 
-            <div className="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
-              <div>
-                <strong>{product.name}</strong>
-                <div className="text-muted small">
-                  Qty: 1 × ₹{product.sellPrice}
+          <div className="card shadow-sm p-4 border-0 mb-4">
+            {/* List of Products */}
+            {product.map((product, index) => (
+              <div
+                key={index}
+                className="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2"
+              >
+                <div>
+                  <strong>{product.name}</strong>
+                  <div className="text-muted small">
+                    Qty: {product.quantity} × ₹{product.sellPrice}
+                  </div>
                 </div>
+                <div>₹{product.quantity * product.sellPrice}</div>
               </div>
-            </div>
+            ))}
 
+            {/* Shipping and Total */}
             <div className="border-top pt-3 mt-3">
               <div className="d-flex justify-content-between mb-2">
-                <span>Shipping</span>
-                <span>₹50</span>
+                <span>Sub Total</span>
+                <span className="">₹{costTotal}</span>
+              </div>
+              <div className="d-flex justify-content-between mb-2">
+                <span>Delivery Charges</span>
+                <span className="text-decoration-line-through">₹50</span>
+              </div>
+              <div className="d-flex justify-content-between mb-2">
+                <span>Your total savings</span>
+                <span className="text-decoration-line-through">₹ {discount}</span>
               </div>
               <div className="d-flex justify-content-between border-top pt-3 fw-bold fs-5">
                 <span>Total</span>
-                <span>₹{product.sellPrice}</span>
+                <span>₹{total}</span>
               </div>
             </div>
           </div>
@@ -222,7 +246,10 @@ const CheckoutPage = () => {
             </div>
 
             <div className="mt-4">
-              <button type="submit" className="btn btn-primary text-white w-100 py-2 fs-5">
+              <button
+                type="submit"
+                className="btn btn-primary text-white w-100 py-2 fs-5"
+              >
                 Place Order
               </button>
             </div>

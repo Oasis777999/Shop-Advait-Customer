@@ -113,6 +113,7 @@ const DetailedProduct = () => {
         </div>
       </div>
 
+      {/* Table */}
       <section className="py-5 text-center">
         <div className="container">
           <h3>Detailed Product Information</h3>
