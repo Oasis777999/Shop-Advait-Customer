@@ -6,47 +6,56 @@ const CartPage = () => {
   const [products, setProducts] = useState([]);
   const [customer, setCustomer] = useState({});
 
+  // User stored in the localstorage
+  const user = JSON.parse(localStorage.getItem("user"));
+
   console.log(products);
-  
-  
+
+  const fetchCartAndProducts = async () => {
+    try {
+      // 1. Get cart from customer
+      const res = await api.get(`/api/customer/cart/${user.id}`);
+      const customerCart = res.data.cart || [];
+
+      setCart(customerCart); // store raw cart
+
+      console.log(res);
+
+      // 2. Fetch each product details by ID
+      const productResponses = await Promise.all(
+        customerCart.map((item) => api.get(`/api/product/${item.productId}`))
+      );
+
+      // console.log(productResponses);
+
+      // 3. Merge product info with quantity
+      const fullProducts = productResponses.map((res, index) => ({
+        ...res.data,
+        quantity: customerCart[index].quantity,
+      }));
+
+      setProducts(fullProducts);
+    } catch (error) {
+      console.error("Error fetching cart or product info", error);
+    }
+  };
+
+  const updateQuantity = async (productId, action) => {
+    try {
+      const res = await api.post(
+        `/api/customer/cart/update-quantity/${user.id}`,
+        { productId, action }
+      );
+    } catch (error) {
+      console.error("Quantity update failed : ", error.message);
+    }
+    fetchCartAndProducts();
+  };
 
   useEffect(() => {
-    const fetchCartAndProducts = async () => {
-      const user = JSON.parse(localStorage.getItem("user"));
-      try {
-        // 1. Get cart from customer
-        const res = await api.get(`/api/customer/cart/${user.id}`);
-        const customerCart = res.data.cart || [];
-        
-        setCart(customerCart); // store raw cart
-        
-        console.log(res);
-        
-
-        // 2. Fetch each product details by ID
-        const productResponses = await Promise.all(
-          customerCart.map((item) =>
-            api.get(`/api/product/${item.productId}`)
-            
-          )
-        );
-
-        // console.log(productResponses);
-        
-        // 3. Merge product info with quantity
-        const fullProducts = productResponses.map((res, index) => ({
-          ...res.data,
-          quantity: customerCart[index].quantity,
-        }));
-
-        setProducts(fullProducts);
-      } catch (error) {
-        console.error("Error fetching cart or product info", error);
-      }
-    };
-
     fetchCartAndProducts();
   }, []);
+
   const total = products.reduce(
     (sum, item) => sum + item.sellPrice * item.quantity,
     0
@@ -74,7 +83,23 @@ const CartPage = () => {
                 {products.map((item, index) => (
                   <tr key={index}>
                     <td>{item.name}</td>
-                    <td>{item.quantity}</td>
+                    <td>
+                      <div className="d-flex align-items-center">
+                        <button
+                          className="btn btn-sm btn-outline-danger"
+                          onClick={() => updateQuantity(item._id, "decrease")}
+                        >
+                           – 
+                        </button>
+                        <span className="mx-2">{item.quantity}</span>
+                        <button
+                          className="btn btn-sm btn-outline-primary"
+                          onClick={() => updateQuantity(item._id, "increase")}
+                        >
+                           + 
+                        </button>
+                      </div>
+                    </td>
                     <td>₹{item.sellPrice}</td>
                     <td>₹{item.sellPrice * item.quantity}</td>
                   </tr>
