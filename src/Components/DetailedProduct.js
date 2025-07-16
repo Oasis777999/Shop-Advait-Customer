@@ -24,6 +24,9 @@ const DetailedProduct = () => {
     fetchProduct();
   }, [id, navigate]);
 
+  if (!storedCustomer) {
+    navigate("/login");
+  }
   const ProductInCart = async (id) => {
     try {
       const res = await api.post(`/api/customer/cart/${storedCustomer.id}`, {
