@@ -7,6 +7,7 @@ const DetailedProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+  const storedCustomer = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -22,6 +23,17 @@ const DetailedProduct = () => {
 
     fetchProduct();
   }, [id, navigate]);
+
+  const ProductInCart = async (id) => {
+    try {
+      const res = await api.post(`/api/customer/cart/${storedCustomer.id}`, {
+        productId: id,
+      });
+      alert("Product added to cart");
+    } catch (error) {
+      console.log("Product save to cart failed:", error.message);
+    }
+  };
 
   if (!product) return <div className="container mt-5">Loading...</div>;
 
@@ -92,7 +104,7 @@ const DetailedProduct = () => {
               </button>
               <button
                 className="btn btn-outline-secondary btn-lg"
-                onClick={() => navigate(`/billing/${product._id}`)}
+                onClick={() => ProductInCart(product._id)}
               >
                 Add to Cart
               </button>

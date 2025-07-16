@@ -135,59 +135,97 @@ const CheckoutPage = () => {
               </p>
             )}
           </div>
+          <div className="card shadow-sm p-4 border-0">
+            <h5 className="mb-4">Order Summary</h5>
+
+            <div className="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+              <div>
+                <strong>{product.name}</strong>
+                <div className="text-muted small">
+                  Qty: 1 × ₹{product.sellPrice}
+                </div>
+              </div>
+            </div>
+
+            <div className="border-top pt-3 mt-3">
+              <div className="d-flex justify-content-between mb-2">
+                <span>Shipping</span>
+                <span>₹50</span>
+              </div>
+              <div className="d-flex justify-content-between border-top pt-3 fw-bold fs-5">
+                <span>Total</span>
+                <span>₹{product.sellPrice}</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Billing Form */}
-        <div className="col-md-7">
-          <form className="card p-4 shadow-sm" onSubmit={handleSubmit}>
-            <h5>Billing Details</h5>
+        <div className="col-md-7 col-lg-7">
+          <form className="card p-4 shadow border-0" onSubmit={handleSubmit}>
+            <h4 className="mb-4 text-center">Billing Details</h4>
 
-            {[
-              ["name", "Full Name"],
-              ["email", "Email Address"],
-              ["phone", "Phone Number"],
-              ["address", "Full Address"],
-              ["landMark", "Landmark"],
-              ["city", "City"],
-              ["state", "State"],
-              ["pincode", "Pincode"],
-            ].map(([key, label]) => (
-              <div className="mb-3" key={key}>
-                <label className="form-label">{label}</label>
-                <input
-                  type={
-                    key === "pincode" || key === "phone" ? "number" : "text"
-                  }
-                  name={key}
-                  className="form-control"
-                  value={form[key]}
-                  onChange={handleChange}
-                  required
-                />
+            <div className="row g-3">
+              {[
+                ["name", "Full Name", "text"],
+                ["email", "Email Address", "email"],
+                ["phone", "Phone Number", "tel"],
+                ["address", "Full Address", "text"],
+                ["landMark", "Landmark", "text"],
+                ["city", "City", "text"],
+                ["state", "State", "text"],
+                ["pincode", "Pincode", "tel"],
+              ].map(([key, label, type]) => (
+                <div className="col-12 col-md-6" key={key}>
+                  <label className="form-label fw-medium">{label}</label>
+                  <input
+                    type={type}
+                    name={key}
+                    className="form-control"
+                    placeholder={`Enter ${label.toLowerCase()}`}
+                    value={form[key]}
+                    onChange={handleChange}
+                    required
+                    inputMode={type === "tel" ? "numeric" : undefined}
+                    pattern={key === "phone" ? "[0-9]{10}" : undefined}
+                    maxLength={
+                      key === "phone" ? 10 : key === "pincode" ? 6 : undefined
+                    }
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-4">
+              <h5 className="mb-3">Select Payment Method</h5>
+              <div className="d-flex flex-column gap-2">
+                {["Cash on Delivery", "Card", "Online Payment"].map(
+                  (method) => (
+                    <div className="form-check" key={method}>
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="paymentMethod"
+                        value={method}
+                        checked={selectedPayment === method}
+                        onChange={() => setSelectedPayment(method)}
+                        id={method}
+                        required
+                      />
+                      <label className="form-check-label" htmlFor={method}>
+                        {method}
+                      </label>
+                    </div>
+                  )
+                )}
               </div>
-            ))}
+            </div>
 
-            <h5 className="mt-4">Select Payment Method</h5>
-            {["Cash on Delivery", "Card", "Online Payment"].map((method) => (
-              <div className="form-check mb-2" key={method}>
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="paymentMethod"
-                  value={method}
-                  checked={selectedPayment === method}
-                  onChange={() => setSelectedPayment(method)}
-                  id={method}
-                />
-                <label className="form-check-label" htmlFor={method}>
-                  {method}
-                </label>
-              </div>
-            ))}
-
-            <button type="submit" className="btn btn-success w-100 mt-3">
-              Place Order
-            </button>
+            <div className="mt-4">
+              <button type="submit" className="btn btn-primary text-white w-100 py-2 fs-5">
+                Place Order
+              </button>
+            </div>
           </form>
         </div>
       </div>
