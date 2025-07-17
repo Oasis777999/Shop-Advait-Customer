@@ -73,7 +73,7 @@ const Profile = () => {
             <thead className="table-dark">
               <tr>
                 <th>#</th>
-                <th>Product</th>
+                <th>Oder Id / Treacking Id</th>
                 <th>Payment</th>
                 <th>Status</th>
                 <th>Date</th>
@@ -85,9 +85,7 @@ const Profile = () => {
                   <td>{idx + 1}</td>
                   <td className="text-primary">
                     {/* If productId is populated with full product object */}
-                    {typeof order.productId === "object"
-                      ? order.productId.name
-                      : order.productId}
+                    {order._id}
                   </td>
                   <td>
                     <span className="badge bg-info text-dark">

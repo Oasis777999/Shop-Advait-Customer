@@ -2,6 +2,21 @@ import React, { useEffect, useState } from "react";
 import api from "../apis/api";
 import { Link, useNavigate } from "react-router-dom";
 
+const sliderImages = [
+  {
+    src: "https://media.tomtom.com/f/178460/1920x800/0032ce87bd/apps-landing-slider-go-nav-app-desktop.jpg",
+    alt: "Product 1",
+  },
+  {
+    src: "https://chirpgps.com/images/sliderbg3.jpg",
+    alt: "Product 2",
+  },
+  {
+    src: "https://www.vms4x4.com/cdn/shop/files/3DX_v4_1400x.jpg?v=1661471859",
+    alt: "Product 3",
+  },
+];
+
 const Home = () => {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -21,7 +36,47 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="container mt-4">
+    <div className="container-fluid">
+      <div
+        id="homeSlider"
+        className="carousel slide mb-4"
+        data-bs-ride="carousel"
+      >
+        <div className="carousel-inner">
+          {sliderImages.map((img, index) => (
+            <div
+              key={index}
+              className={`carousel-item ${index === 0 ? "active" : ""}`}
+            >
+              <img
+                src={img.src}
+                className="d-block w-100"
+                alt={img.alt}
+                style={{ maxHeight: "800px", objectFit: "cover" }}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Optional Controls */}
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target="#homeSlider"
+          data-bs-slide="prev"
+        >
+          <span className="carousel-control-prev-icon"></span>
+        </button>
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target="#homeSlider"
+          data-bs-slide="next"
+        >
+          <span className="carousel-control-next-icon"></span>
+        </button>
+      </div>
+
       <h3 className="mb-4">Available Products</h3>
 
       {/* Card Items */}
@@ -40,7 +95,7 @@ const Home = () => {
                   }
                   className="card-img-top"
                   alt={product.name}
-                  style={{ height: "300px", objectFit: "cover" }}
+                  style={{ height: "500px", objectFit: "cover" }}
                 />
 
                 <div className="card-body d-flex flex-column justify-content-between">
@@ -88,9 +143,7 @@ const Home = () => {
                   >
                     View
                   </button>
-                  <button className="btn btn-outline-primary">
-                    Buy 
-                  </button>
+                  <button className="btn btn-outline-primary">Buy</button>
                 </div>
               </div>
             </div>
