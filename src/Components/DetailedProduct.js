@@ -43,7 +43,7 @@ const DetailedProduct = () => {
   return (
     <>
       {/* Image Section with Side content */}
-      <div className="container mt-4">
+      <div className="container mt-5">
         <div className="row g-4">
           {/* Image Section */}
           <div className="col-md-6">
@@ -65,7 +65,6 @@ const DetailedProduct = () => {
           <div className="col-md-6 py-5">
             <h2 className="fw-bold">{product.name}</h2>
             <p className="text-muted">{product.shortDesc}</p>
-            <p className="fw-bold">Subscription : {product.warranty} Years</p>
             <hr />
 
             <div className="mb-3">
@@ -75,7 +74,7 @@ const DetailedProduct = () => {
               <span className="badge bg-info">{product.brand}</span>
             </div>
 
-            <div>
+            <div className="pt-5">
               <span className="me-2 text-muted">
                 <s>₹{product.costPrice}</s>
               </span>
@@ -90,6 +89,7 @@ const DetailedProduct = () => {
                   % OFF
                 </span>
               )}
+              <p className="fw-bold py-2">Subscription : {product.warranty} Years</p>
             </div>
 
             {/* Optional: Pricing */}
