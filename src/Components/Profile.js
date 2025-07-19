@@ -88,21 +88,27 @@ const Profile = () => {
                     {order._id}
                   </td>
                   <td>
-                    <span className="badge bg-info text-dark">
+                    <span className=" text-dark">
                       {order.paymentMethod}
                     </span>
                   </td>
                   <td>
                     <span
                       className={`badge ${
-                        order.status === "Delivered"
+                        order.status === "New Order"
+                          ? "bg-secondary"
+                          : order.status === "In-Process"
+                          ? "bg-warning text-dark"
+                          : order.status === "Out for Delivery"
+                          ? "bg-info text-dark"
+                          : order.status === "Delivered"
                           ? "bg-success"
                           : order.status === "Cancelled"
                           ? "bg-danger"
-                          : "bg-warning text-dark"
+                          : "bg-primary"
                       }`}
                     >
-                      {order.status}
+                      {order.status || "Pending"}
                     </span>
                   </td>
                   <td>{new Date(order.createdAt).toLocaleDateString()}</td>
