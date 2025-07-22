@@ -9,6 +9,13 @@ const DetailedProduct = () => {
   const [product, setProduct] = useState(null);
   const storedCustomer = JSON.parse(localStorage.getItem("user"));
 
+  const images = [
+    "https://www.digitaltrends.com/wp-content/uploads/2018/08/screenshot_20200507-124713_nova-launcher.jpg?fit=1080%2C2400&p=1",
+    "https://www.combell.com/en/help/wp-content/uploads/5981c6d9f0f4baa8678b457f.png",
+    "https://www.digitaltrends.com/wp-content/uploads/2018/08/screenshot_20200507-124713_nova-launcher.jpg?fit=1080%2C2400&p=1",
+    "https://www.combell.com/en/help/wp-content/uploads/5981c6d9f0f4baa8678b457f.png",
+  ];
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -89,7 +96,9 @@ const DetailedProduct = () => {
                   % OFF
                 </span>
               )}
-              <p className="fw-bold py-2">Subscription : {product.warranty} Years</p>
+              <p className="fw-bold py-2">
+                Subscription : {product.warranty} Years
+              </p>
             </div>
 
             {/* Optional: Pricing */}
@@ -201,6 +210,28 @@ const DetailedProduct = () => {
             <div class="col-6 col-md-4 mb-3">
               <i class="bi bi-truck-front"></i>
               <h4 class="fw-semibold">Scooter</h4>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Image slider */}
+      <section className="container my-5">
+        <h3>Application Overview</h3>
+        <div className="card shadow rounded-4">
+          <div className="card-body">
+            <div className="row g-4">
+              {images.map((img, idx) => (
+                <div className="col-md-3" key={idx}>
+                  <div className="card border-0 shadow-sm h-100">
+                    <img
+                      src={img}
+                      alt={`Feature ${idx}`}
+                      className="img-fluid rounded"
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

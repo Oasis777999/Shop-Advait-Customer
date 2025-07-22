@@ -101,7 +101,7 @@ const Home = () => {
           <div className="row">
             {products.map((product) => (
               <div className="col-md-6 col-lg-4 mb-4" key={product._id}>
-                <div className="card h-100 shadow-sm">
+                <div className="card h-100 shadow-sm" >
                   {/* Hero Image */}
                   <img
                     src={
