@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "../apis/api";
 
 const CheckoutPage = () => {
@@ -40,7 +40,7 @@ const CheckoutPage = () => {
     if (customer) {
       fetchProduct();
     }
-  });
+  }, [customer]);
 
   const fetchCustomer = async () => {
     const storedCustomer = JSON.parse(localStorage.getItem("user"));
@@ -130,10 +130,21 @@ const CheckoutPage = () => {
     try {
       await api.post("/api/order/add", orderData);
       alert(`Order placed with ${selectedPayment}. Thank you, ${form.name}!`);
+      CheckOut();
       navigate("/");
     } catch (error) {
       console.error("Order failed:", error);
       alert("Order could not be placed. Please try again.");
+    }
+  };
+
+  const CheckOut = async () => {
+    try {
+      await api.post(
+        `/api/customer/cart/update-quantity/empty/${customer._id}`
+      );
+    } catch (error) {
+      console.error("Quantity update failed : ", error.message);
     }
   };
 
@@ -160,7 +171,9 @@ const CheckoutPage = () => {
                     Qty: {product.quantity} × ₹{product.sellPrice}
                   </div>
                 </div>
-                <div className="fw-bold">₹{product.quantity * product.sellPrice}</div>
+                <div className="fw-bold">
+                  ₹{product.quantity * product.sellPrice}
+                </div>
               </div>
             ))}
 
